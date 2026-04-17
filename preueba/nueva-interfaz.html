@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANORTE - Nueva Interfaz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rojo-banorte: #EB0029;
+            --blanco: #FFFFFF;
+            --azul-claro: #F0F4F8;
+            --texto-oscuro: #1D1D1F; 
+            --texto-gris: #86868B;
+            --borde-sutil: rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--azul-claro); color: var(--texto-oscuro); overflow-x: hidden; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); z-index: 1000; border-bottom: 1px solid var(--borde-sutil);
+        }
+        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; color: var(--rojo-banorte); text-decoration: none; text-transform: uppercase; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 150px 5% 100px 5%; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        .back-link { display: inline-flex; align-items: center; gap: 10px; color: var(--texto-gris); text-decoration: none; font-weight: 600; margin-bottom: 40px; transition: color 0.3s; align-self: flex-start; }
+        .back-link:hover { color: var(--rojo-banorte); }
+
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        
+        .text-area h1 { font-size: clamp(3rem, 4vw, 4.5rem); font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+        .text-area p { font-size: 1.3rem; color: var(--texto-gris); line-height: 1.6; margin-bottom: 30px; }
+        .feature-list { list-style: none; margin-top: 30px; }
+        .feature-list li { font-size: 1.1rem; color: var(--texto-oscuro); margin-bottom: 15px; display: flex; align-items: center; font-weight: 500; }
+        .feature-list li::before { content: '✓'; color: var(--rojo-banorte); font-weight: 900; margin-right: 15px; font-size: 1.2rem; }
+
+        .media-area { width: 100%; aspect-ratio: 9/16; max-width: 400px; margin: 0 auto; background-color: var(--blanco); border-radius: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.08); border: 8px solid var(--texto-oscuro); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .media-area h3 { color: var(--texto-gris); opacity: 0.5; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+
+        @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; text-align: center; } .text-area { display: flex; flex-direction: column; align-items: center; } .feature-list li { justify-content: center; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">BANORTE</a>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Volver al inicio</a>
+        
+        <div class="content-grid">
+            <div class="text-area">
+                <div style="font-size: 4rem; margin-bottom: 10px;">💸</div>
+                <h1>Diseñada para la velocidad.</h1>
+                <p>Hemos reconstruido la aplicación desde cero. Menos clics, navegación más intuitiva y acceso instantáneo a las funciones que más utilizas.</p>
+                
+                <ul class="feature-list">
+                    <li>Modo oscuro nativo integrado.</li>
+                    <li>Transferencias en menos de 3 segundos.</li>
+                    <li>Menú de acceso rápido personalizable.</li>
+                </ul>
+            </div>
+            
+            <div class="media-area">
+                <div style="font-size: 3rem; margin-bottom: 20px;">📱</div>
+                <h3>[ UI App Móvil ]</h3>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

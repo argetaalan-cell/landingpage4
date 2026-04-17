@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANORTE - Nueva App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rojo-banorte: #EB0029;
+            --blanco: #FFFFFF;
+            --azul-claro: #F0F4F8;
+            --texto-oscuro: #1D1D1F; 
+            --texto-gris: #86868B;
+            --borde-sutil: rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--blanco); color: var(--texto-oscuro); overflow-x: hidden; }
+
+        /* Nav (Siempre por encima de todo) */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 1000; border-bottom: 1px solid var(--borde-sutil);
+        }
+        
+        .logo {
+            font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; color: var(--rojo-banorte); text-decoration: none; text-transform: uppercase;
+        }
+
+        .nav-btn { background-color: var(--rojo-banorte); color: var(--blanco); border: none; padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* Animaciones Globales */
+        .reveal { opacity: 0; transform: translateY(50px); transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        section { padding: 100px 5%; }
+
+        /* --- HERO CONGELADO (Efecto Cortina Perfecto) --- */
+        .hero { 
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            text-align: center;
+            color: var(--blanco);
+            z-index: 1; 
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); 
+            z-index: -1;
+        }
+
+        .hero-text {
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-text h1 { font-size: clamp(3.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -3px; line-height: 1.1; margin-bottom: 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero-text h1 span { color: var(--rojo-banorte); }
+        .hero-text p { font-size: clamp(1.2rem, 1.8vw, 1.5rem); color: #E0E0E0; font-weight: 500; line-height: 1.6; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .content-wrapper {
+            position: relative;
+            margin-top: 100vh; 
+            background-color: var(--blanco);
+            z-index: 10;
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.2); 
+        }
+
+        /* App Reveal */
+        .app-reveal { text-align: center; background-color: var(--blanco); }
+        .app-reveal h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 50px; }
+        .mockup-container { width: 100%; max-width: 900px; height: 60vh; margin: 0 auto; background: var(--azul-claro); border-radius: 40px; border: 8px solid var(--rojo-banorte); box-shadow: 0 30px 60px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; transition: transform 1s ease; }
+        .mockup-container.active { transform: scale(1.03); }
+        .mockup-container h3 { font-size: 2rem; font-weight: 700; color: var(--rojo-banorte); }
+
+        /* Sticky Scroll */
+        .framer-section { background-color: var(--azul-claro); padding: 150px 5%; }
+        .sticky-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; gap: 80px; }
+        .sticky-left { position: sticky; top: 25vh; flex: 1; }
+        .sticky-left h2 { font-size: clamp(3rem, 4vw, 4.5rem); font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+        .scroll-right { flex: 1; display: flex; flex-direction: column; gap: 40vh; padding-bottom: 20vh; }
+        .feature-card { background-color: var(--blanco); padding: 60px 50px; border-radius: 30px; border: 1px solid var(--borde-sutil); box-shadow: 0 20px 50px rgba(0,0,0,0.04); transition: transform 0.4s ease; }
+        .feature-card:hover { transform: translateY(-5px); border-color: rgba(235, 0, 41, 0.2); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 2rem; font-weight: 800; margin-bottom: 15px; }
+        .card-btn { display: inline-block; color: var(--rojo-banorte); text-decoration: none; font-weight: 700; background: none; border: none; cursor: pointer; }
+
+        /* Placeholders */
+        .future-content { background-color: var(--blanco); min-height: 100vh; display: flex; align-items: center; justify-content: center; border-top: 1px solid var(--borde-sutil); }
+        .placeholder-box { text-align: center; color: var(--texto-gris); opacity: 0.4; border: 2px dashed var(--texto-gris); padding: 100px; border-radius: 30px; width: 80%; }
+
+        /* CTA */
+        .cta-section {
+            background-color: var(--azul-claro);
+            min-height: 80vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        .cta-section h2 { font-size: clamp(3rem, 5vw, 5rem); font-weight: 900; letter-spacing: -2px; margin-bottom: 40px; }
+        .main-btn {
+            background-color: var(--rojo-banorte); color: var(--blanco); border: none;
+            padding: 20px 60px; font-size: 1.3rem; font-weight: 800; border-radius: 40px;
+            cursor: pointer; box-shadow: 0 10px 25px rgba(235, 0, 41, 0.2); transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .main-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(235, 0, 41, 0.3); }
+
+        @media (max-width: 900px) { .sticky-container { flex-direction: column; } .sticky-left { position: relative; top: 0; margin-bottom: 60px; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">BANORTE</a>
+        <button class="nav-btn">Iniciar Sesión</button>
+    </nav>
+
+    <header class="hero">
+        <video class="hero-video-bg" autoplay muted loop playsinline>
+            <source src="banorte-app.mp4" type="video/mp4">
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-text">
+            <h1 class="reveal">Conoce tu<br><span>nueva app.</span></h1>
+            <p class="reveal" style="transition-delay: 0.1s;">Hemos rediseñado cada detalle para crear la experiencia bancaria más rápida e intuitiva con el respaldo de BANORTE.</p>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        <section class="app-reveal">
+            <h2 class="reveal">La app, en su máxima expresión.</h2>
+            <div class="mockup-container reveal" id="mockup">
+                <h3>[ UI de la App Completa ]</h3>
+            </div>
+        </section>
+
+        <section class="framer-section">
+            <div class="sticky-container">
+                <div class="sticky-left reveal">
+                    <h2>Gestiona, ahorra y</h2>
+                    <p>Tres nuevas herramientas integradas para darte el control absoluto.</p>
+                </div>
+                <div class="scroll-right">
+                    
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">💸</div>
+                        <h3>Nueva interfaz</h3>
+                        <a href="nueva-interfaz.html" class="card-btn">Conocer más &rarr;</a>
+                    </div>
+                    
+                    <div class="feature-card reveal" style="border: 2px solid var(--rojo-banorte);">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Ahorro Inteligente IA</h3>
+                        <p>Hola, esto es una prueba y solo pondras este mensaje en vez del otro</p>
+                        <a href="ahorro-ia.html" class="card-btn">Ver cómo funciona &rarr;</a>
+                    </div>
+
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">📈</div>
+                        <h3>Nueva sección de inversión</h3>
+                        <p>Genera sin temor</p>
+                        <a href="inversiones.html" class="card-btn">Explorar portafolios &rarr;</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="future-content">
+            <div class="placeholder-box">
+                <h2>Tu Futura Sección Aquí</h2>
+                <p>Módulos de testimonios, preguntas frecuentes, equipo, etc.</p>
+            </div>
+        </section>
+
+        <section class="future-content" style="background-color: var(--azul-claro);">
+            <div class="placeholder-box" style="border-color: var(--rojo-banorte); color: var(--rojo-banorte);">
+                <h2>Otra Sección Adicional</h2>
+                <p>El scroll puede continuar infinitamente.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2 class="reveal">Es hora de avanzar.</h2>
+            <div class="reveal" style="transition-delay: 0.1s;">
+                <button class="main-btn">BANORTE</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Animaciones al hacer scroll (Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 150) el.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", reveal);
+        
+        // Hacemos un pequeño timeout para asegurar que la posición inicial se calcule bien antes del reveal
+        setTimeout(reveal, 100);
+
+        // Animación del Mockup (Aumento de tamaño)
+        window.addEventListener('scroll', () => {
+            const mockup = document.getElementById('mockup');
+            if (mockup) {
+                const pos = mockup.getBoundingClientRect().top;
+                if(pos < window.innerHeight / 1.2 && pos > -500) mockup.classList.add('active');
+                else mockup.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
